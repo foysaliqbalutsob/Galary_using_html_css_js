@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Visionary - Creative Gallery</title>
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1040/1040216.png">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: { "display": ["Inter"] },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-effect { backdrop-filter: blur(16px); @apply bg-white/80 dark:bg-slate-900/80; }
+        .filter-active { @apply bg-primary text-white font-semibold shadow-md shadow-primary/20; }
+        
+        /* Modal Animation */
+        .modal-animate { animation: modalShow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes modalShow {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen transition-colors duration-300">
+
+<header class="sticky top-0 z-50 glass-effect border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between pt-4 pb-2">
+            <div class="flex items-center gap-2 ">
+                <span class="material-symbols-outlined text-primary text-3xl">filter_hdr</span>
+                <h1 class="text-xl font-bold tracking-tight lg:text-2xl">Visionary</h1>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all">
+                    <span id="themeIcon" class="material-symbols-outlined text-xl align-middle">dark_mode</span>
+                </button>
+                
+                <button onclick="openProfileModal()" class="size-10 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary transition-all active:scale-90 shadow-sm">
+                    <img id="headerProfilePic" alt="User" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100"/>
+                </button>
+            </div>
+        </div>
+
+        <div class="pb-2 max-w-xl mx-auto lg:max-w-2xl">
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <span class="material-symbols-outlined text-xl">search</span>
+                </div>
+                <input id="searchInput" class="block w-full pl-11 pr-4 py-3 bg-slate-100 dark:bg-slate-800/40 border-none focus:ring-2 focus:ring-primary/50 rounded-2xl text-sm placeholder-slate-500 transition-all" placeholder="Search your creative gallery..." type="text"/>
+            </div>
+        </div>
+
+        <div class="flex gap-3 py-3 overflow-x-auto no-scrollbar max-w-xl mx-auto lg:max-w-2xl justify-start sm:justify-center" id="categoryWrapper">
+            <button onclick="filterGallery('All', this)" class="filter-btn filter-active h-9 shrink-0 px-6 rounded-xl text-sm transition-all">All</button>
+            <button onclick="filterGallery('Nature', this)" class="filter-btn h-9 shrink-0 px-6 rounded-xl bg-slate-200/60 dark:bg-slate-800/60 text-sm hover:bg-slate-200 dark:hover:bg-slate-800 transition-all">Nature</button>
+            <button onclick="filterGallery('Architecture', this)" class="filter-btn h-9 shrink-0 px-6 rounded-xl bg-slate-200/60 dark:bg-slate-800/60 text-sm hover:bg-slate-200 dark:hover:bg-slate-800 transition-all">Architecture</button>
+            <button onclick="filterGallery('People', this)" class="filter-btn h-9 shrink-0 px-6 rounded-xl bg-slate-200/60 dark:bg-slate-800/60 text-sm hover:bg-slate-200 dark:hover:bg-slate-800 transition-all">People</button>
+        </div>
+    </div>
+</header>
+
+<main class="p-4 pb-32 max-w-6xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6" id="gallery-grid"></div>
+
+    <div id="emptyState" class="hidden flex-col items-center justify-center py-32 text-slate-500">
+        <span class="material-symbols-outlined text-7xl mb-4 opacity-20">image_not_supported</span>
+        <p class="text-lg font-medium">Your gallery is empty</p>
+        <p class="text-sm opacity-60">Add some memories to get started</p>
+    </div>
+</main>
+
+<div id="profileModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onclick="closeProfileModal()"></div>
+    <div class="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 shadow-2xl modal-animate border border-white/10">
+        <div class="flex flex-col items-center text-center">
+            <h2 class="text-2xl font-bold mb-1">Profile</h2>
+            <p class="text-xs text-slate-500 mb-6 uppercase tracking-widest">Visionary Studio</p>
+            
+            <div class="relative mb-8">
+                <img id="modalPreviewPic" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150" 
+                     class="size-32 rounded-[2.5rem] object-cover border-4 border-primary shadow-2xl">
+                <label class="absolute -bottom-2 -right-2 bg-primary p-3 rounded-2xl cursor-pointer shadow-lg hover:rotate-12 transition-all">
+                    <span class="material-symbols-outlined text-white text-lg">photo_camera</span>
+                    <input type="file" id="profileInput" class="hidden" accept="image/*">
+                </label>
+            </div>
+
+            <div class="w-full space-y-4">
+                <div class="text-left">
+                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-primary ml-1">Full Name</label>
+                    <input type="text" id="userNameInput" class="w-full mt-1 px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border-none focus:ring-2 focus:ring-primary text-sm font-semibold" placeholder="Alex Visionary">
+                </div>
+                
+                <button onclick="saveProfile()" class="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-xl shadow-primary/30 active:scale-[0.97] transition-all">
+                    Save Profile
+                </button>
+                <button onclick="closeProfileModal()" class="w-full py-2 text-slate-400 text-sm hover:text-red-500 transition-colors">Dismiss</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="fixed bottom-0 left-0 right-0 z-50 glass-effect border-t border-slate-200 dark:border-slate-800 pb-safe">
+    <div class="flex justify-around items-center px-4 py-3 max-w-2xl mx-auto">
+        <a class="flex flex-col items-center gap-1 text-primary" href="index.html">
+            <span class="material-symbols-outlined fill-current">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider">Feed</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+            <span class="material-symbols-outlined">explore</span>
+            <span class="text-[10px] font-medium uppercase tracking-wider">Explore</span>
+        </a>
+        <div class="relative -top-8">
+            <a href="./add_image.html" class="bg-primary size-16 rounded-full flex items-center justify-center shadow-2xl shadow-primary/50 border-4 border-background-light dark:border-background-dark text-white hover:scale-110 active:scale-90 transition-all">
+                <span class="material-symbols-outlined text-3xl">add</span>
+            </a>
+        </div>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+            <span class="material-symbols-outlined">collections</span>
+            <span class="text-[10px] font-medium uppercase tracking-wider">Gallery</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="profile.html">
+            <span class="material-symbols-outlined">person</span>
+            <span class="text-[10px] font-medium uppercase tracking-wider">Profile</span>
+        </a>
+    </div>
+</nav>
+
+<script>
+    let currentCategory = 'All';
+
+    // ১. ডার্ক মোড লজিক
+    function toggleDarkMode() {
+        const html = document.documentElement;
+        const isDark = html.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+        document.getElementById('themeIcon').innerText = isDark ? 'light_mode' : 'dark_mode';
+    }
+
+    // ২. মডাল লজিক
+    function openProfileModal() {
+        document.getElementById('profileModal').classList.remove('hidden');
+        document.getElementById('userNameInput').value = localStorage.getItem('userName') || '';
+        const savedPic = localStorage.getItem('userProfilePic');
+        if(savedPic) document.getElementById('modalPreviewPic').src = savedPic;
+    }
+
+    function closeProfileModal() { document.getElementById('profileModal').classList.add('hidden'); }
+
+    document.getElementById('profileInput').onchange = function(e) {
+        const reader = new FileReader();
+        reader.onload = (event) => document.getElementById('modalPreviewPic').src = event.target.result;
+        reader.readAsDataURL(e.target.files[0]);
+    };
+
+    function saveProfile() {
+        localStorage.setItem('userName', document.getElementById('userNameInput').value);
+        localStorage.setItem('userProfilePic', document.getElementById('modalPreviewPic').src);
+        document.getElementById('headerProfilePic').src = document.getElementById('modalPreviewPic').src;
+        closeProfileModal();
+    }
+
+    // ৩. গ্যালারি লজিক
+    function renderGallery(filterTerm = '') {
+        const grid = document.getElementById('gallery-grid');
+        const emptyState = document.getElementById('emptyState');
+        let images = JSON.parse(localStorage.getItem('myGallery') || '[]');
+        
+        const filtered = images.filter(img => {
+            const matchesCategory = (currentCategory === 'All' || img.category === currentCategory);
+            return matchesCategory && img.title.toLowerCase().includes(filterTerm.toLowerCase());
+        });
+
+        grid.innerHTML = '';
+        if (filtered.length === 0) {
+            emptyState.style.display = 'flex';
+        } else {
+            emptyState.style.display = 'grid';
+            filtered.forEach(img => {
+                grid.innerHTML += `
+                    <div class="relative group aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-800 shadow-xl transition-all duration-300 hover:-translate-y-2">
+                        <div class="absolute inset-0 bg-cover bg-center" 
+                             style="background-image: linear-gradient(to bottom, transparent 50%, rgba(15, 23, 42, 0.9)), url('${img.src}');">
+                        </div>
+                        <div class="absolute inset-0 flex flex-col justify-between p-4 lg:p-6">
+                            <div class="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="deleteImage(${img.id})" class="bg-red-500/30 hover:bg-red-500 backdrop-blur-md p-2 rounded-xl text-white transition-all">
+                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                </button>
+                            </div>
+                            <div>
+                                <p class="text-white text-sm font-bold truncate mb-1 lg:text-base">${img.title}</p>
+                                <span class="px-2 py-0.5 rounded-md bg-primary/20 text-primary text-[10px] font-bold uppercase border border-primary/30">${img.category}</span>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+    }
+
+    function filterGallery(category, btn) {
+        currentCategory = category;
+        document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('filter-active');
+            b.classList.add('bg-slate-200/60', 'dark:bg-slate-800/60');
+        });
+        btn.classList.add('filter-active');
+        btn.classList.remove('bg-slate-200/60', 'dark:bg-slate-800/60');
+        renderGallery(document.getElementById('searchInput').value);
+    }
+
+    document.getElementById('searchInput').oninput = (e) => renderGallery(e.target.value);
+
+    function deleteImage(id) {
+        if(confirm('Delete this masterpiece?')) {
+            let images = JSON.parse(localStorage.getItem('myGallery') || '[]');
+            localStorage.setItem('myGallery', JSON.stringify(images.filter(i => i.id !== id)));
+            renderGallery();
+        }
+    }
+
+    // ৪. ইনিশিয়ালাইজেশন
+    document.addEventListener('DOMContentLoaded', () => {
+        // থিম চেক
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') document.documentElement.classList.remove('dark');
+        updateThemeIcon(savedTheme === 'dark');
+
+        renderGallery();
+        const savedPic = localStorage.getItem('userProfilePic');
+        if(savedPic) document.getElementById('headerProfilePic').src = savedPic;
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Profile - Visionary</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: { "display": ["Inter"] },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        .glass-effect { backdrop-filter: blur(12px); background-color: rgba(16, 25, 34, 0.8); }
+        .profile-gradient { background: linear-gradient(to bottom, #137fec, #101922); }
+    </style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+
+<main class="pb-32">
+    <div class="h-48 profile-gradient w-full relative">
+        <a href="index.html" class="absolute top-6 left-4 bg-black/20 backdrop-blur-md p-2 rounded-full text-white">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+    </div>
+
+    <div class="px-6 -mt-16 relative">
+        <div class="flex flex-col items-center">
+            <div class="relative group">
+                <img id="profileDisplay" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150" 
+                     class="w-32 h-32 rounded-3xl object-cover border-4 border-background-dark shadow-2xl transition-transform group-hover:scale-105">
+                <label for="profileUpload" class="absolute bottom-2 right-2 bg-primary p-2 rounded-xl cursor-pointer shadow-lg hover:bg-blue-600 transition-colors">
+                    <span class="material-symbols-outlined text-white text-sm">edit</span>
+                    <input type="file" id="profileUpload" class="hidden" accept="image/*">
+                </label>
+            </div>
+            
+            <h2 class="mt-4 text-2xl font-bold tracking-tight" id="userName">Alex Visionary</h2>
+            <p class="text-slate-500 text-sm font-medium">Digital Creator & Photographer</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 mt-8 bg-slate-100 dark:bg-slate-900/50 p-5 rounded-3xl border border-slate-200 dark:border-slate-800">
+            <div class="text-center">
+                <p class="text-xl font-bold" id="totalPosts">0</p>
+                <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Posts</p>
+            </div>
+            <div class="text-center border-x border-slate-200 dark:border-slate-800">
+                <p class="text-xl font-bold">1.2k</p>
+                <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Followers</p>
+            </div>
+            <div class="text-center">
+                <p class="text-xl font-bold">450</p>
+                <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Following</p>
+            </div>
+        </div>
+
+        <div class="mt-8 space-y-4">
+            <div class="flex items-center gap-3 text-slate-400">
+                <span class="material-symbols-outlined">location_on</span>
+                <span class="text-sm font-medium">New York, USA</span>
+            </div>
+            <div class="flex items-center gap-3 text-slate-400">
+                <span class="material-symbols-outlined">link</span>
+                <a href="#" class="text-sm font-medium text-primary">visionary.studio</a>
+            </div>
+        </div>
+
+        <div class="mt-8 flex gap-3">
+            <button class="flex-1 bg-primary py-4 rounded-2xl font-bold text-sm shadow-lg shadow-primary/30">Edit Profile</button>
+            <button class="px-4 bg-slate-200 dark:bg-slate-800 rounded-2xl">
+                <span class="material-symbols-outlined">settings</span>
+            </button>
+        </div>
+    </div>
+</main>
+
+<nav class="fixed bottom-0 left-0 right-0 z-50 glass-effect border-t border-slate-200 dark:border-slate-800 pb-safe">
+    <div class="flex justify-around items-center px-4 py-3">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="index.html">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-medium uppercase tracking-wider">Feed</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+            <span class="material-symbols-outlined">explore</span>
+            <span class="text-[10px] font-medium uppercase tracking-wider">Explore</span>
+        </a>
+        <div class="relative -top-6">
+            <a href="add_image.html" class="bg-primary size-14 rounded-full flex items-center justify-center shadow-lg shadow-primary/40 border-4 border-background-dark text-white">
+                <span class="material-symbols-outlined text-3xl">add</span>
+            </a>
+        </div>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+            <span class="material-symbols-outlined">collections</span>
+            <span class="text-[10px] font-medium uppercase tracking-wider">Gallery</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-primary" href="profile.html">
+            <span class="material-symbols-outlined fill-current">person</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider">Profile</span>
+        </a>
+    </div>
+</nav>
+
+<script>
+    // প্রোফাইল পেজ লোড হলে ডাটা আপডেট করা
+    document.addEventListener('DOMContentLoaded', () => {
+        // ১. পোস্ট সংখ্যা আপডেট করা
+        const gallery = JSON.parse(localStorage.getItem('myGallery') || '[]');
+        document.getElementById('totalPosts').innerText = gallery.length;
+
+        // ২. সেভ করা প্রোফাইল পিকচার লোড করা
+        const savedImg = localStorage.getItem('profilePic');
+        if(savedImg) {
+            document.getElementById('profileDisplay').src = savedImg;
+        }
+    });
+
+    // প্রোফাইল পিকচার পরিবর্তন করা
+    document.getElementById('profileUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64Img = event.target.result;
+                document.getElementById('profileDisplay').src = base64Img;
+                localStorage.setItem('profilePic', base64Img); // LocalStorage-এ সেভ করা
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+</body>
+</html>
