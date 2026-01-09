@@ -6,8 +6,8 @@
 
 ## 🔗 Project Links
 
-* **Live Demo:** [Click here to view Live](https://your-username.github.io/your-repo-name/)
-* **Source Code:** [GitHub Repository](https://github.com/your-username/your-repo-name)
+* **Live Demo:** [Click here to view Live](https://foysaliqbalutsob.github.io/Galary_using_html_css_js/index.html)
+* **Source Code:** [GitHub Repository](https://github.com/foysaliqbalutsob/Galary_using_html_css_js?tab=readme-ov-file)
 
 ---
 
@@ -15,7 +15,7 @@
 
 | Desktop View (Dark Mode) | Mobile View (Light Mode) |
 | :--- | :--- |
-| ![Desktop Preview](ss1.png) | ![Mobile Preview](ss2.png)|
+| ![Desktop Preview](ss2.png) | ![Mobile Preview](ss1.png)|
 | *Modern Grid with Glassmorphism* | *Smooth Mobile Navigation* |
 
 ---
@@ -68,4 +68,4 @@ This project is open-source. Feel free to fork, modify, and build your own visio
 
 ---
 
-**Developed with ❤️ by [Foysal Iqbal]**
+**Developed by Foysal Iqbal**
