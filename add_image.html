@@ -86,7 +86,6 @@
 <script>
     let selectedCategory = "Nature";
 
-    // ইমেজ প্রিভিউ লজিক
     document.getElementById('imageFile').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -100,7 +99,7 @@
         }
     });
 
-    // ক্যাটাগরি সিলেক্ট করার লজিক
+ 
     document.querySelectorAll('.cat-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.cat-btn').forEach(b => {

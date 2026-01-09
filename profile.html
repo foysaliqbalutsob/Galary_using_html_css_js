@@ -115,20 +115,19 @@
 </nav>
 
 <script>
-    // প্রোফাইল পেজ লোড হলে ডাটা আপডেট করা
+
     document.addEventListener('DOMContentLoaded', () => {
-        // ১. পোস্ট সংখ্যা আপডেট করা
+       
         const gallery = JSON.parse(localStorage.getItem('myGallery') || '[]');
         document.getElementById('totalPosts').innerText = gallery.length;
 
-        // ২. সেভ করা প্রোফাইল পিকচার লোড করা
         const savedImg = localStorage.getItem('profilePic');
         if(savedImg) {
             document.getElementById('profileDisplay').src = savedImg;
         }
     });
 
-    // প্রোফাইল পিকচার পরিবর্তন করা
+    
     document.getElementById('profileUpload').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {

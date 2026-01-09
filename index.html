@@ -149,7 +149,7 @@
 <script>
     let currentCategory = 'All';
 
-    // ১. ডার্ক মোড লজিক
+    
     function toggleDarkMode() {
         const html = document.documentElement;
         const isDark = html.classList.toggle('dark');
@@ -161,7 +161,7 @@
         document.getElementById('themeIcon').innerText = isDark ? 'light_mode' : 'dark_mode';
     }
 
-    // ২. মডাল লজিক
+  
     function openProfileModal() {
         document.getElementById('profileModal').classList.remove('hidden');
         document.getElementById('userNameInput').value = localStorage.getItem('userName') || '';
@@ -184,7 +184,7 @@
         closeProfileModal();
     }
 
-    // ৩. গ্যালারি লজিক
+ 
     function renderGallery(filterTerm = '') {
         const grid = document.getElementById('gallery-grid');
         const emptyState = document.getElementById('emptyState');
@@ -243,9 +243,8 @@
         }
     }
 
-    // ৪. ইনিশিয়ালাইজেশন
     document.addEventListener('DOMContentLoaded', () => {
-        // থিম চেক
+    
         const savedTheme = localStorage.getItem('theme') || 'dark';
         if (savedTheme === 'light') document.documentElement.classList.remove('dark');
         updateThemeIcon(savedTheme === 'dark');
