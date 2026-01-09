@@ -15,7 +15,7 @@
 
 | Desktop View (Dark Mode) | Mobile View (Light Mode) |
 | :--- | :--- |
-| ![Desktop Preview](https://via.placeholder.com/600x400?text=Desktop+Gallery+Preview) | ![Mobile Preview](https://via.placeholder.com/300x500?text=Mobile+Gallery+Preview) |
+| ![Desktop Preview](ss1.png) | ![Mobile Preview](ss2.png)|
 | *Modern Grid with Glassmorphism* | *Smooth Mobile Navigation* |
 
 ---
